@@ -1,0 +1,67 @@
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+
+public class PlayerMovement : MonoBehaviour
+{
+    public float speed;
+    public float jump;
+    [SerializeField] private Rigidbody2D rb;
+    private float move;
+
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private LayerMask groundLayer;
+    public float radius;
+    private bool isGrounded;
+
+    private float jumpTimeCounter;
+    public float jumpTime;
+    private bool isJumping;
+
+    // Start is called before the first frame update
+    void Start()
+    {
+        
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+        move = Input.GetAxis("Horizontal");
+
+        rb.velocity = new Vector2(move * speed, rb.velocity.y);
+
+        isGrounded = Physics2D.OverlapCircle(groundCheck.position, radius, groundLayer);
+
+        if (isGrounded == true && Input.GetButtonDown("Jump")){
+            rb.velocity = Vector2.up * jump;
+            isJumping = true;
+            jumpTimeCounter = jumpTime;
+        }
+
+        if (Input.GetButtonDown("Jump") && isJumping == true){
+            if (jumpTimeCounter > 0){
+                rb.velocity = Vector2.up * jump;
+                jumpTimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                isJumping = false;
+            }
+
+            if (Input.GetButtonUp("Jump"))
+            {
+                isJumping = false;
+            }
+        }
+
+        if (move > 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, 0);
+        }
+        else if (move < 0)
+        {
+            transform.rotation = Quaternion.Euler(0, 180, 0);
+        }
+    }
+}
