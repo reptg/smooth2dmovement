@@ -36,25 +36,8 @@ public class PlayerMovement : MonoBehaviour
         if (isGrounded == true && Input.GetButtonDown("Jump")){
             rb.velocity = Vector2.up * jump;
             isJumping = true;
-            jumpTimeCounter = jumpTime;
-        }
-
-        if (Input.GetButtonDown("Jump") && isJumping == true){
-            if (jumpTimeCounter > 0){
-                rb.velocity = Vector2.up * jump;
-                jumpTimeCounter -= Time.deltaTime;
-            }
-            else
-            {
-                isJumping = false;
-            }
-
-            if (Input.GetButtonUp("Jump"))
-            {
-                isJumping = false;
-            }
-        }
-
+            jumpTimeCounter = jumpTim
+            
         if (move > 0)
         {
             transform.rotation = Quaternion.Euler(0, 0, 0);
